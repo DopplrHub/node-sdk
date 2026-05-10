@@ -1,0 +1,14 @@
+import { DopplerHub } from '../src/index.js';
+
+const api = new DopplerHub('YOUR_API_KEY', {
+  baseUrl: 'http://localhost:3001/api/v1',
+});
+
+const job = await api.tools.imageResize('./hero.png', {
+  width: 1920,
+  height: 1080,
+  fit: 'cover',
+  outputFormat: 'webp',
+});
+await job.wait();
+await job.download('./hero.webp');
