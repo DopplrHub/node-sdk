@@ -1,7 +1,7 @@
 import { DopplerHub } from '../src/index.js';
 
 const api = new DopplerHub('YOUR_API_KEY', {
-  baseUrl: 'http://localhost:3001/api/v1',
+  baseUrl: 'https://api.dopplrhub.com/api/v1',
 });
 
 const job = await api.tools.videoTrim('./clip.mp4', {
