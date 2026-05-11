@@ -1,6 +1,6 @@
 {
   "name": "@dopplr-hub/sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node.js SDK for the DopplerHub public API",
   "type": "module",
   "main": "./src/index.js",
