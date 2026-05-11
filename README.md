@@ -5,7 +5,7 @@ A Node.js SDK for the current DopplerHub public API, including generic conversio
 ## Install
 
 ```bash
-npm install @dopplerhub/sdk
+npm install @dopplrhub/sdk
 ```
 
 For this local scaffold:
@@ -19,7 +19,7 @@ cd D:\AudioConverter\sdk\node
 The starter sample in `examples/convert-local-file.mjs` now covers both a basic conversion flow and tool usage, including a queued PDF tool job and an immediate ADA analysis download.
 
 ```js
-import { DopplerHub } from '@dopplerhub/sdk';
+import { DopplerHub } from '@dopplrhub/sdk';
 
 const api = new DopplerHub('YOUR_API_KEY', {
   baseUrl: 'https://api.dopplrhub.com/api/v1',
