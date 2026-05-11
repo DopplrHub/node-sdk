@@ -209,6 +209,53 @@ export class ToolsClient {
     return this.pdf(source, 'unlock', { password }, options);
   }
 
+  pdfFlatten(source, options = {}) {
+    return this.pdf(source, 'flatten', {}, options);
+  }
+
+  pdfResize(source, params = {}, options = {}) {
+    return this.pdf(source, 'resize', { width: params.width, height: params.height }, options);
+  }
+
+  pdfCrop(source, params = {}, options = {}) {
+    return this.pdf(source, 'crop', {
+      left: params.left || 0,
+      top: params.top || 0,
+      width: params.width,
+      height: params.height,
+    }, options);
+  }
+
+  pdfOrganize(source, pages = '', options = {}) {
+    return this.pdf(source, 'organize', { pages }, options);
+  }
+
+  pdfExtractImages(source, options = {}) {
+    return this.pdf(source, 'extract-images', {}, options);
+  }
+
+  pdfRemovePages(source, pages = '', options = {}) {
+    return this.pdf(source, 'remove-pages', { pages }, options);
+  }
+
+  pdfExtractPages(source, ranges = '', options = {}) {
+    return this.pdf(source, 'extract-pages', { ranges }, options);
+  }
+
+  async socialResize(source, platform, selectedSizeIds, options = {}) {
+    const upload = await this.client.normalizeUpload(source, options);
+    return this.client.submitJob('/tools/social-resize', {
+      fileId: upload.fileId,
+      inputKey: upload.inputKey,
+      originalName: options.originalName || upload.fileName,
+      platform,
+      selectedSizeIds,
+      outputFormat: options.outputFormat || 'jpg',
+      offsets: options.offsets || {},
+      fileSizeBytes: options.fileSizeBytes || null,
+    });
+  }
+
   imageResize(source, params = {}, options = {}) {
     return this.image(source, 'resize', {
       width: params.width,
@@ -397,7 +444,7 @@ export class ToolsClient {
 export class DopplerHub {
   constructor(apiKey, options = {}) {
     this.apiKey = apiKey;
-    this.baseUrl = (options.baseUrl || 'http://localhost:3001/api/v1').replace(/\/+$/, '');
+    this.baseUrl = (options.baseUrl || 'https://api.dopplrhub.com/api/v1').replace(/\/+$/, '');
     this.timeoutMs = (options.timeoutSeconds || 120) * 1000;
     this.tools = new ToolsClient(this);
     this.utilities = new UtilitiesClient(this);
