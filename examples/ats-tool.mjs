@@ -1,6 +1,6 @@
-import { DopplerHub } from '../src/index.js';
+import { DopplrHub  } from '../src/index.js';
 
-const api = new DopplerHub('YOUR_API_KEY', {
+const api = new DopplrHub ('YOUR_API_KEY', {
   baseUrl: 'https://api.dopplrhub.com/api/v1',
 });
 

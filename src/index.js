@@ -1,10 +1,10 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
-export class DopplerHubError extends Error {
+export class DopplrHub Error extends Error {
   constructor(message, status = null) {
     super(message);
-    this.name = 'DopplerHubError';
+    this.name = 'DopplrHub Error';
     this.status = status;
   }
 }
@@ -72,13 +72,13 @@ export class ConversionJob extends BaseResult {
 
       if (state === 'completed') return this;
       if (state === 'failed') {
-        throw new DopplerHubError(String(this.payload.failedReason || 'Conversion failed.'));
+        throw new DopplrHub Error(String(this.payload.failedReason || 'Conversion failed.'));
       }
 
       await new Promise((resolve) => setTimeout(resolve, Math.max(pollSeconds, 1) * 1000));
     }
 
-    throw new DopplerHubError(`Timed out waiting for conversion job ${this.jobId}`);
+    throw new DopplrHub Error(`Timed out waiting for conversion job ${this.jobId}`);
   }
 
   async download(targetPath = null) {
@@ -87,12 +87,12 @@ export class ConversionJob extends BaseResult {
     }
 
     if (this.state.toLowerCase() !== 'completed') {
-      throw new DopplerHubError(`Job ${this.jobId} is not completed.`);
+      throw new DopplrHub Error(`Job ${this.jobId} is not completed.`);
     }
 
     const downloadUrl = String(this.payload.downloadUrl || '');
     if (!downloadUrl) {
-      throw new DopplerHubError('Completed job did not include a downloadUrl.');
+      throw new DopplrHub Error('Completed job did not include a downloadUrl.');
     }
 
     await this.client.downloadFile(downloadUrl, targetPath || this.#defaultDownloadPath());
@@ -127,7 +127,7 @@ export class ImmediateResult extends BaseResult {
   async download(targetPath = null) {
     const downloadUrl = String(this.payload[this.downloadUrlField] || '');
     if (!downloadUrl) {
-      throw new DopplerHubError('Response did not include a download URL.');
+      throw new DopplrHub Error('Response did not include a download URL.');
     }
 
     await this.client.downloadFile(downloadUrl, targetPath || this.#defaultDownloadPath());
@@ -163,7 +163,7 @@ export class UtilitiesClient {
 
   async batchDownload(jobIds, targetPath) {
     if (!Array.isArray(jobIds) || jobIds.length === 0) {
-      throw new DopplerHubError('jobIds must be a non-empty array.');
+      throw new DopplrHub Error('jobIds must be a non-empty array.');
     }
 
     const response = await this.client.request('POST', '/jobs/batch-download', {
@@ -347,7 +347,7 @@ export class ToolsClient {
     if (operation === 'merge') {
       const mergeSources = Array.isArray(source) ? source : options.sources;
       if (!Array.isArray(mergeSources) || mergeSources.length === 0) {
-        throw new DopplerHubError('PDF merge requires an array of sources.');
+        throw new DopplrHub Error('PDF merge requires an array of sources.');
       }
 
       const uploads = await this.client.normalizeUploads(mergeSources);
@@ -441,7 +441,7 @@ export class ToolsClient {
   }
 }
 
-export class DopplerHub {
+export class DopplrHub  {
   constructor(apiKey, options = {}) {
     this.apiKey = apiKey;
     this.baseUrl = (options.baseUrl || 'https://api.dopplrhub.com/api/v1').replace(/\/+$/, '');
@@ -510,7 +510,7 @@ export class DopplerHub {
   async downloadFile(url, targetPath) {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new DopplerHubError(`Download failed with HTTP ${response.status}.`, response.status);
+      throw new DopplrHub Error(`Download failed with HTTP ${response.status}.`, response.status);
     }
 
     await writeBinaryFile(targetPath, Buffer.from(await response.arrayBuffer()));
@@ -544,12 +544,12 @@ export class DopplerHub {
       return this.upload(source);
     }
 
-    throw new DopplerHubError('Source must be a local file path, remote URL, UploadedFile, or upload response object.');
+    throw new DopplrHub Error('Source must be a local file path, remote URL, UploadedFile, or upload response object.');
   }
 
   async normalizeUploads(sources) {
     if (!Array.isArray(sources) || sources.length === 0) {
-      throw new DopplerHubError('At least one source is required.');
+      throw new DopplrHub Error('At least one source is required.');
     }
 
     return Promise.all(sources.map((source) => this.normalizeUpload(source)));
@@ -573,11 +573,11 @@ export class DopplerHub {
       data = await response.json();
     } catch {
       const text = await response.text();
-      throw new DopplerHubError(`Expected JSON response for ${method} ${requestPath}, got: ${text.trim() || '[empty body]'}`);
+      throw new DopplrHub Error(`Expected JSON response for ${method} ${requestPath}, got: ${text.trim() || '[empty body]'}`);
     }
 
     if (!data || typeof data !== 'object' || Array.isArray(data)) {
-      throw new DopplerHubError(`Expected JSON object for ${method} ${requestPath}.`);
+      throw new DopplrHub Error(`Expected JSON object for ${method} ${requestPath}.`);
     }
 
     return data;
@@ -616,7 +616,7 @@ export class DopplerHub {
     }
 
     const message = body && typeof body.error === 'string' ? body.error : `HTTP ${response.status}`;
-    throw new DopplerHubError(message, response.status);
+    throw new DopplrHub Error(message, response.status);
   }
 }
 

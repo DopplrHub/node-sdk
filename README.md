@@ -1,6 +1,6 @@
-# DopplerHub Node SDK
+# DopplrHub  Node SDK
 
-A Node.js SDK for the current DopplerHub public API, including generic conversions, tools, and utility endpoints.
+A Node.js SDK for the current DopplrHub  public API, including generic conversions, tools, and utility endpoints.
 
 ## Install
 
@@ -19,9 +19,9 @@ cd D:\AudioConverter\sdk\node
 The starter sample in `examples/convert-local-file.mjs` now covers both a basic conversion flow and tool usage, including a queued PDF tool job and an immediate ADA analysis download.
 
 ```js
-import { DopplerHub } from '@dopplrhub/sdk';
+import { DopplrHub  } from '@dopplrhub/sdk';
 
-const api = new DopplerHub('YOUR_API_KEY', {
+const api = new DopplrHub ('YOUR_API_KEY', {
   baseUrl: 'https://api.dopplrhub.com/api/v1',
 });
 
@@ -104,5 +104,5 @@ Tool coverage in the Node SDK:
 
 ## Important behavior note
 
-`startFromURL()` currently downloads the remote resource first, then uploads it into DopplerHub.
+`startFromURL()` currently downloads the remote resource first, then uploads it into DopplrHub .
 It does not perform headless browser webpage rendering.
