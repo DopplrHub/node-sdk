@@ -19,7 +19,7 @@ cd D:\AudioConverter\sdk\node
 The starter sample in `examples/convert-local-file.mjs` now covers both a basic conversion flow and tool usage, including a queued PDF tool job and an immediate ADA analysis download.
 
 ```js
-import { DopplrHub } from '@dopplrhub/sdk';
+import { DopplrHub } from '@dopplr-hub/sdk';
 
 const api = new DopplrHub('YOUR_API_KEY', {
   baseUrl: 'https://api.dopplrhub.com/api/v1',
