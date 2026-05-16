@@ -5,7 +5,7 @@ A Node.js SDK for the current DopplrHub public API, including generic conversion
 ## Install
 
 ```bash
-npm install @dopplrhub/sdk
+npm install @dopplr-hub/sdk
 ```
 
 For this local scaffold:
